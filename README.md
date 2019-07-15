@@ -4,12 +4,12 @@ Orientations generates images comprised of a number of vertical and horizontal b
 
 ## Guide ##
 
-'''python
+```python
 >>> orientations(n_bars = 20, p_vertical = 0.1)
  #generates 20 bars per side with 10% having a vertical orientation
 >>> orientations(n_bars = 20, p_vertical = 0, jitter = 0.1) 
  #generates 20 bars per side, none having a vertical orientation, with minimal jitter.
-'''
+```
 
 By default, the resulting image is stored in the same folder.
 
