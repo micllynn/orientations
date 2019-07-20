@@ -278,11 +278,3 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
             f.write('\n\n')
 
     return
-
-
-bar_0 = Bars('horiz', bar_length = 0.9, bar_width = 2, p_bar = 0.1,
-    angle_probdist = sp_stats.norm, angle_dict = {'loc' : 0, 'scale' : 10})
-bar_90 = Bars('vert', bar_length = 0.9, bar_width = 2, p_bar = 0.9,
-    angle_probdist = sp_stats.norm, angle_dict = {'loc' : 90, 'scale' : 10})
-
-plot(bar_0, bar_90, n_bars = 20, jitter = 1.5, zoom = -0.05)
