@@ -94,7 +94,7 @@ class Bars(object):
         return ['name', 'bar_length', 'bar_width', 'p_bar', 'angle', 'angle_probdist',
             'angle_dict']
 
-    def __init__(self, name, bar_length = 0.9, bar_width = 1, p_bar = 0, angle = None,
+    def __init__(self, name, bar_length = 0.9, bar_width = 2, p_bar = 0, angle = None,
         angle_probdist = None, angle_dict = None):
         """
         Parameters
