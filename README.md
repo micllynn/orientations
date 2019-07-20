@@ -1,6 +1,6 @@
 # Orientations #
 
-Orientations generates images comprised of a number of vertical and horizontal bars, for use in mouse behavior testing. Tools providing granularity over the stimulus parameters are built-in.
+Orientations generates arbitrarily complex images comprised of bars with varying orientations. A class of Bar() types is introduced, where each instance can have complex probability distributions specified to draw orientations from. Multiple Bar() class instances can be combined to form orientation-tuned bars, stimuli in the midst of distractors, etc. 
 
 ## Introduction ##
 

@@ -119,7 +119,7 @@ class Bars(object):
         self.name = name
         self.angle = angle
         self.bar_length = bar_length
-        self.bar_width = bar_length
+        self.bar_width = bar_width
         self.p_bar = p_bar
         self.angle_probdist = angle_probdist
         self.angle_dict = angle_dict
