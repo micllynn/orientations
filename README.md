@@ -48,7 +48,7 @@ ori.plot(bar_distractor, bar_stim, n_bars = 40, jitter = 0.5, contrast = 'invert
   fname = 'distractor.pdf', dpi = 300, figsize = (8, 8), zoom = -0.1)
 ```
 
-###Generating ab arbitrary number of bar types which tile the angle space
+### Generating an arbitrary number of bar types which tile the angle space
 ```python
 bars = []
 angles = np.linspace(0, 180, 5)
