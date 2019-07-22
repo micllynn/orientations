@@ -88,7 +88,7 @@ def assign(items, group_names, num, return_inds = False):
 
 class Bars(object):
     """
-    Describes a set of bars with a particular orientation, length, etc.
+    Generator class for a set of bars with a particular orientation, length, etc.
     """
     def __dir__(self):
         return ['name', 'bar_length', 'bar_width', 'p_bar', 'angle', 'angle_probdist',
@@ -102,18 +102,22 @@ class Bars(object):
         name : str
             A name for the Bar object.
         angle : float or None
-            Angle in degress from horizontal. If angle is False, angle_probdist
+            Angle in degress from horizontal. If angle is None, angle_probdist
             is used to draw the angle.
         bar_length : float
         bar_width : float
         p_bar : float
-        angle_probdist : None or object from [scipy.stats._continuous_distns].
-            If angle is False and angle_probdist is not None: draw I.I.D
-            angles from angle_probdist for each instance of Bar in the graph.
+        angle_probdist : None or object from [scipy.stats._continuous_distns],
+        optional
+            If angle is None and angle_probdist is not None: draw I.I.D
+            angles from angle_probdist for each generated bar from Bar() in
+            the graph.
                 e.g. angle_probdist = sp.stats.norm;
                 or angle_probdist = sp.stats.uniform
-        angle_dict : dict, optional
-            A dictionary containing kwargs to pass to angle_probdist
+        angle_dict : None or dict, optional
+            A dictionary containing kwargs to pass to angle_probdist. Must be
+            comprised of kwargs which are associated with the particular
+            sp.stats distribution used.
                 e.g. angle_dict = {'loc' : 20, 'scale' : 10}
         """
         self.name = name
@@ -134,7 +138,7 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
     Parameters
     ------
     *args : list
-        Any number of bar objects may be placed here.
+        Any number of Bar() class instances, used to generate bars on the image.
     n_bars: int (optional)
         The number of bars per side of the image.
     jitter : float (optional)
@@ -209,7 +213,7 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
         assigned_x[name] = _x
         assigned_y[name] = _y
 
-        #For each bar-type, now calculate the xcoords and ycoords of the bar tips.
+        #Now calculate the xcoords and ycoords of the bar tips.
         x_coords = np.empty((2, len(assigned_x[name])))
         y_coords = np.empty_like(x_coords)
 
