@@ -2,5 +2,6 @@
 *.txt
 *.jpg
 *.pdf
-/figs/*
+/figs/*.pdf
+/figs/*.txt
 /orientations/__pycache__

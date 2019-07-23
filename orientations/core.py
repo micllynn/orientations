@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.stats as sp_stats
 import matplotlib.pyplot as plt
-import os
+import os, sys
 
 def assign(items, group_names, num, return_inds = False):
     """Assigns items to named groups, each with defined capacities.
@@ -262,9 +262,17 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
     ax.set_xlim(_zoom_lims)
     ax.set_ylim(_zoom_lims)
 
+
     #Save figure
     cwd = os.getcwd()
-    fname_deep = cwd + '/figs/' + fname
+
+    #OS test
+    platform = sys.platform
+    if platform is 'darwin' or 'linux':
+        fname_deep = cwd + '/figs/' + fname
+    elif platform is 'win32' or 'win64':
+        fname_deep = cwd + '\\figs\\' + fname
+
     plt.tight_layout()
     plt.savefig(fname_deep, dpi = dpi)
 
@@ -282,3 +290,6 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
             f.write('\n\n')
 
     return
+
+import sys
+sys.platform
