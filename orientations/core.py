@@ -233,12 +233,12 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
             #Calculate a deltax / deltay based on angle
             if _bar.angle is None:
                 _angle = _bar.angle_probdist.rvs(size = 1,
-                    **_bar.angle_dict)
+                    **_bar.angle_dict)[0]
             elif _bar.angle is not None:
                 _angle = _bar.angle
 
-            _dx = (np.cos(np.radians(_angle)) * _bar.bar_length/n_bars * 0.5)[0]
-            _dy = (np.sin(np.radians(_angle)) * _bar.bar_length/n_bars * 0.5)[0]
+            _dx = (np.cos(np.radians(_angle)) * _bar.bar_length/n_bars * 0.5)
+            _dy = (np.sin(np.radians(_angle)) * _bar.bar_length/n_bars * 0.5)
 
             x_coords[:, _ind_bar] = np.array([_center_x - _dx,
                 _center_x + _dx])
