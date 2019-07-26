@@ -171,7 +171,7 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
     for ind, bar in enumerate(args):
         names.append(bar.name)
         bar.p_bar /= p_bar_tot
-        bar._n_bar = int(bar.p_bar * n_bars)
+        bar._n_bar = int(bar.p_bar * n_bars**2)
         n_bar.append(bar._n_bar)
 
     #Determine center coordinates for each bar including jitter
@@ -291,5 +291,15 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
 
     return
 
-import sys
-sys.platform
+# def imgbank(n_img = 50, folder_name = 'change', *args, **kwargs):
+#     """Constructs an imagebank.
+#     """
+#     #Check that the folder exists
+#     path = os.path.join(os.getcwd(), folder_name)
+#     if not os.path.exists(path):
+#         os.makedirs(folder_name)
+#
+#     #Plot and save
+#     for reps in range(n_img):
+#         path_file = path + folder_name + '_' + str(reps) + '.jpg'
+#         ori.plot(*args, fname = path_file, **kwargs)
