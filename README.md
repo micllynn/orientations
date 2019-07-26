@@ -75,7 +75,7 @@ bar_nonstim = ori.Bars('nonstim', p_bar = 0.01, bar_length = 0.8,
 locals = ori.imagebank(bar_stim, bar_nonstim, n_img = 50, folder_name = 'change',
     n_bars = 10, jitter = 0.5)
 ```
-Note that any functions from <code>ori.plot()</code> can simply be passed to <code>ori.imagebank()</code>.
+Note that any parameters from <code>ori.plot()</code> can simply be passed to <code>ori.imagebank()</code>.
 
 ## More information
 
