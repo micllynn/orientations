@@ -1,1 +1,1 @@
-from .core import Bars, plot
+from .core import Bars, plot, imagebank

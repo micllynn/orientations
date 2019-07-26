@@ -61,6 +61,21 @@ ori.plot(*bars, n_bars = 30, jitter = 0.5)
 
 ```
 
+### Generating an imagebank
+Sometimes, one desires to generate a bank of slightly different images, all generated with identical parameters. In this case, the convenience function <code>ori.imagebank()</code> can be used. The imagebank is stored in a new folder with defined name <code>folder_name</code>, and <code>n_img</code> repetitions are generated.
+
+```python
+bar_stim = ori.Bars('stim', p_bar = 0.99, bar_length = 0.8,
+    bar_width = 10, angle_probdist = sp_stats.norm,
+    angle_dict = {'loc' : 0, 'scale' : 5})
+bar_nonstim = ori.Bars('nonstim', p_bar = 0.01, bar_length = 0.8,
+    bar_width = 10, angle_probdist = sp_stats.norm,
+    angle_dict = {'loc' : 90, 'scale' : 5})
+
+locals = ori.imagebank(bar_stim, bar_nonstim, n_img = 50, folder_name = 'change',
+    n_bars = 10, jitter = 0.5)
+```
+Note that any functions from <code>ori.plot()</code> can simply be passed to <code>ori.imagebank()</code>.
 
 ## More information
 

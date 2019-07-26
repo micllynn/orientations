@@ -132,7 +132,7 @@ class Bars(object):
 
 
 def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
-    fname = 'orientations.pdf', dpi = 300, figsize = None, zoom = 1):
+    fname = 'orientations.pdf', dpi = 300, figsize = None, zoom = 0, **kwargs):
     """Generates an image consisting of multiple angled bars.
 
     Parameters
@@ -261,23 +261,17 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
     _zoom_lims = [0 + zoom, 1 - zoom]
     ax.set_xlim(_zoom_lims)
     ax.set_ylim(_zoom_lims)
-
-
-    #Save figure
-    cwd = os.getcwd()
-
-    #OS test
-    platform = sys.platform
-    if platform is 'darwin' or 'linux':
-        fname_deep = cwd + '/figs/' + fname
-    elif platform is 'win32' or 'win64':
-        fname_deep = cwd + '\\figs\\' + fname
-
     plt.tight_layout()
-    plt.savefig(fname_deep, dpi = dpi)
+
+    if 'fname_full' in kwargs:
+        fname_full = kwargs.pop('fname_full')
+        plt.savefig(fname_full, dpi = dpi)
+    else:
+        fname_full = os.path.join(os.getcwd(), 'figs') + fname
+        plt.savefig(fname_full, dpi = dpi)
 
     #Save textfile
-    fname_txt = fname_deep[0:-4] + '.txt'
+    fname_txt = os.path.splitext(fname_full)[0] + '.txt'
     with open(fname_txt, 'w') as f:
         f.write('-------\nImg params\n-------')
         for item in __params.items():
@@ -291,15 +285,30 @@ def plot(*args, n_bars = 20, jitter = 0.5, contrast = 'inverted',
 
     return
 
-# def imgbank(n_img = 50, folder_name = 'change', *args, **kwargs):
-#     """Constructs an imagebank.
-#     """
-#     #Check that the folder exists
-#     path = os.path.join(os.getcwd(), folder_name)
-#     if not os.path.exists(path):
-#         os.makedirs(folder_name)
-#
-#     #Plot and save
-#     for reps in range(n_img):
-#         path_file = path + folder_name + '_' + str(reps) + '.jpg'
-#         ori.plot(*args, fname = path_file, **kwargs)
+def imagebank(*args, n_img = 50, folder_name = 'imagebank', **kwargs):
+    """Constructs an imagebank of slightly different images, all generated
+    using the same parameters, and stores them in folder_name.
+    Can take any arguments from plot().
+
+    Parameters:
+    ----------------
+    n_img : int (optional)
+        Number of distinct images in the databank to generate.
+    folder_name : string (optional):
+        Name of new folder (within /figs/) to store the databank.
+    """
+    #Check that the folder exists
+    path = os.path.join(os.getcwd(), 'figs', folder_name)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    print(f'directory to store images in: {path}')
+
+    #Plot and save
+    for reps in range(n_img):
+        print(f'\rgenerating image {reps+1} of {n_img}...', end = '')
+        fname_full = os.path.join(path, folder_name + '_' + str(reps) + '.jpg')
+        plot(*args, fname_full = fname_full, **kwargs)
+        plt.close()
+
+    return
