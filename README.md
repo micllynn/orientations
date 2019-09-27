@@ -6,7 +6,7 @@ Any scipy.stats distribution can be used to specify each bar's angles, so it's e
 
 An example...
 
-![example](bars_ex.pdf?raw=true "Example of bar image")
+![example](bars_ex.png?raw=true "Example of bar image")
 
 
 ## Introduction ##
