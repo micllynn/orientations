@@ -1,6 +1,6 @@
 # Orientations #
 
-Orientations generates arbitrarily complex images comprised of bars with varying orientations. A generator class <code>Bar()</code> is introduced, where each instance can have complex probability distributions specified to draw orientations from. Multiple <code>Bar()</code> class instances can be combined to form orientation-tuned bars with jitter, stimuli in the midst of distractors, etc.
+Orientations generates arbitrarily complex images comprised of bars with varying orientations. A generator class <code>Bar()</code> specifies the angle, length, width, etc. of particular bar types, while <code>plot()</code> creates images of bar arrays from generator classes and <code>imagebank()</code> creates large imagebanks of probabilistically generated images of bars.
 
 ## Introduction ##
 
@@ -59,6 +59,15 @@ for angle in angles:
 
 ori.plot(*bars, n_bars = 30, jitter = 0.5)
 
+```
+
+### Including empty spaces in the image
+To make a certain number of empty spaces where bars should go, one can simply make an instance of Bars with has zero width:
+```python
+bar_stim = ori.Bars('stim', p_bar=0.6, bar_length=0.8, bar_width=10, angle=0)
+bar_empty = ori.Bars('empty', p_bar=0.4, bar_length=0.8, bar_width=0, angle=0)
+
+ori.plot(bar_stim, bar_empty, n_bars=6, fname='empty_spaces.pdf')
 ```
 
 ### Generating an imagebank
