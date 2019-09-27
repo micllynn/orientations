@@ -2,6 +2,7 @@
 *.txt
 *.jpg
 *.pdf
+!bars_ex.pdf
 /figs/*.pdf
 /figs/*.txt
 /orientations/__pycache__

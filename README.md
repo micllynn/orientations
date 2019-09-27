@@ -1,6 +1,13 @@
 # Orientations #
 
-Orientations generates arbitrarily complex images comprised of bars with varying orientations. A generator class <code>Bar()</code> specifies the angle, length, width, etc. of particular bar types, while <code>plot()</code> creates images of bar arrays from generator classes and <code>imagebank()</code> creates large imagebanks of probabilistically generated images of bars.
+Orientations is a flexible framework for generating complex images comprised of bars with varying orientations. These can be deployed for animal behavioral testing or psychometric analysis. A generator class <code>Bar()</code> specifies the angle, length, width, etc. of particular bar types, while <code>plot()</code> creates images of bar arrays from generator classes and <code>imagebank()</code> creates large imagebanks of probabilistically generated images of bars.
+
+Any scipy.stats distribution can be used to specify each bar's angles, so it's easy to generate arbitrarily complex images with stimuli/distractors.
+
+An example...
+
+![example](bars_ex.pdf?raw=true "Example of bar image")
+
 
 ## Introduction ##
 
@@ -14,8 +21,8 @@ import scipy.stats as sp_stats
 bar_h = ori.Bars('horiz', p_bar = 0.1, angle = 0)
 bar_v = ori.Bars('vert', p_bar = 0.9, angle = 90)
 
-#Now let's plot the results with 20 bars generated per image side.
-ori.plot(bar_h, bar_v, n_bars = 20)
+#Now let's plot the results with 10 bars generated per image side.
+ori.plot(bar_h, bar_v, n_bars = 10)
 ```
 
 Note that an image along with a .txt file storing all chosen stimulus parameters has been saved.
@@ -47,8 +54,9 @@ bar_stim = ori.Bars('stim', p_bar = 0.6, bar_width = 2,
 ori.plot(bar_distractor, bar_stim, n_bars = 40, jitter = 0.5, contrast = 'inverted',
   fname = 'distractor.pdf', dpi = 300, figsize = (8, 8), zoom = -0.1)
 ```
-
+## Advanced cases
 ### Generating an arbitrary number of bar types which tile the angle space
+We can also easily do advanced things with ori.Bars()...
 ```python
 bars = []
 angles = np.linspace(0, 180, 5)
@@ -58,10 +66,9 @@ for angle in angles:
   angle_probdist = sp_stats.norm, angle_dict = {'loc' : angle, 'scale' : 5}))
 
 ori.plot(*bars, n_bars = 30, jitter = 0.5)
-
 ```
 
-### Including empty spaces in the image
+### Generating sparse stimuli (missing bars)
 To make a certain number of empty spaces where bars should go, one can simply make an instance of Bars with has zero width:
 ```python
 bar_stim = ori.Bars('stim', p_bar=0.6, bar_length=0.8, bar_width=10, angle=0)
@@ -70,7 +77,7 @@ bar_empty = ori.Bars('empty', p_bar=0.4, bar_length=0.8, bar_width=0, angle=0)
 ori.plot(bar_stim, bar_empty, n_bars=6, fname='empty_spaces.pdf')
 ```
 
-### Generating an imagebank
+## Generating imagebanks
 Sometimes, one desires to generate a bank of slightly different images, all generated with identical parameters. In this case, the convenience function <code>ori.imagebank()</code> can be used. The imagebank is stored in a new folder with defined name <code>folder_name</code>, and <code>n_img</code> repetitions are generated.
 
 ```python
@@ -90,7 +97,6 @@ Note that any parameters from <code>ori.plot()</code> can simply be passed to <c
 
 The image, as well as a text file corresponding to all image and bar parameters, is stored in the /figs file.
 
-See the class <code>Bars()</code> for more information about stimulus parameters.
-(<code>help(ori.Bars.\__init__.)</code>).
+See the class <code>Bars()</code> for more information about stimulus parameters. (<code>help(ori.Bars)</code>).
 
 Additionally, <code>help(ori.plot)</code> contains a substantial amount of information on the plotting parameters.

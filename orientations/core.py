@@ -91,7 +91,10 @@ def assign(items, group_names, num, return_inds=False):
 
 class Bars(object):
     """
-    Generator class for a set of bars with a certain orientation, length, etc.
+    Generator class for a set of bars with a given set of characteristics.
+
+    Instances are passed to plot() and are used to probabilistically generate
+    images.
     """
     def __dir__(self):
         return [
@@ -153,7 +156,8 @@ def plot(*args,
          figsize=None,
          zoom=0,
          **kwargs):
-    """Generates an image consisting of multiple angled bars.
+    """Generates an image consisting of multiple angled bars, and an
+    associated textfile of parameters.
 
     Parameters
     ------
@@ -174,8 +178,8 @@ def plot(*args,
     figsize : tuple (optional)
         Figsize in inches, to pass to plt.savefig()
     zoom : float (optional)
-        The zoom factor. 0 is no zoom, while positive values indicate more zoom
-        and negative values indicate less zoom.
+        The zoom factor. 0 is no zoom, while positive values indicate zooming in
+        and negative values indicate zooming out.
 
     """
     __params = locals()
@@ -277,8 +281,8 @@ def plot(*args,
     # Implement zooming
     xlim_min, xlim_max = ax.get_xlim()
     ylim_min, ylim_max = ax.get_ylim()
-    ax.set_xlim([xlim_min-zoom, xlim_max+zoom])
-    ax.set_ylim([ylim_min-zoom, ylim_max+zoom])
+    ax.set_xlim([xlim_min+zoom, xlim_max-zoom])
+    ax.set_ylim([ylim_min+zoom, ylim_max-zoom])
     plt.tight_layout()
 
     if 'fname_full' in kwargs:
