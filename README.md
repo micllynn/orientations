@@ -17,43 +17,66 @@ An example...
 import orientations as ori
 import scipy.stats as sp_stats
 
-#Construct bar generator classes.
-bar_h = ori.Bars('horiz', p_bar = 0.1, angle = 0)
-bar_v = ori.Bars('vert', p_bar = 0.9, angle = 90)
+# Construct bar generator classes.
+bar_h = ori.Bars('horiz', p_bar=0.1, angle=0)
+bar_v = ori.Bars('vert', p_bar=0.9, angle=90)
 
-#Now let's plot the results with 10 bars generated per image side.
-ori.plot(bar_h, bar_v, n_bars = 10)
+# Now let's plot the results with 10 bars generated per image side.
+ori.plot(bar_h, bar_v, n_bars=10)
 ```
+Here, we define two `Bar` generator objects, `bar_h` and `bar_v`, with probabilities `p_bar` of occurring in the plot.
+The function `ori.plot` then stochastically populates an image with defined bars from `bar_h` and `bar_v` with these probabilities, and with characteristics (angle, etc.) given by arguments defined in each instance of `Bar`.
 
 Note that an image along with a .txt file storing all chosen stimulus parameters has been saved.
 
 ### Two bar types each with normally distributed angles
 
 ```python
-#Let's choose probability functinos from sp_stats as angles:
-bar_h = ori.Bars('horiz', p_bar = 0.1, angle_probdist = sp_stats.norm,
-  angle_dict = {'loc' : 0, 'scale' : 10})
-bar_v = ori.Bars('vert', p_bar = 0.9, angle_probdist = sp_stats.norm,
-  angle_dict = {'loc' : 90, 'scale' : 10})
+# Let's choose probability functinos from sp_stats as angles:
+bar_h = ori.Bars('horiz', p_bar=0.1, angle_probdist=sp_stats.norm,
+  angle_dict={'loc' : 0, 'scale' : 10})
+bar_v = ori.Bars('vert', p_bar=0.9, angle_probdist=sp_stats.norm,
+  angle_dict={'loc' : 90, 'scale' : 10})
 
-#Now let's plot the results with lower jitter and more bars per image side.
-ori.plot(bar_h, bar_v, n_bars = 40, jitter = 0.8)
+# Now let's plot the results with lower jitter and more bars per image side.
+ori.plot(bar_h, bar_v, n_bars=40, jitter=0.8)
 ```
 
 Note that any probability distribution from <code>scipy.stats</code> can be specified, along with a dictionary of kwargs specifying e.g. mean and s.d. This allows for complex stimulus parameters to be chosen.
 
 ### Making one 'distractor' bar type and another stimulus bar type
 ```python
-#Make one kind of disctractor bar-type, and another stimulus. Make the distractor bars thinner.
-bar_distractor = ori.Bars('distract', p_bar = 0.4, bar_width = 1,
-  angle_probdist = sp_stats.uniform, angle_dict = {'loc' : 0, 'scale' : 360})
-bar_stim = ori.Bars('stim', p_bar = 0.6, bar_width = 2,
-  angle_probdist = sp_stats.alpha, angle_dict = {'a' : 2, 'loc' : 90, 'scale' : 5})
+# Make one kind of disctractor bar-type, and another stimulus. Make the distractor bars thinner.
+bar_distractor = ori.Bars('distract', p_bar=0.4, bar_width=1,
+  angle_probdist=sp_stats.uniform, angle_dict={'loc' : 0, 'scale' : 360})
+bar_stim = ori.Bars('stim', p_bar=0.6, bar_width=2,
+  angle_probdist=sp_stats.alpha, angle_dict={'a' : 2, 'loc' : 90, 'scale' : 5})
 
-#Plotting can also take more parameters...
-ori.plot(bar_distractor, bar_stim, n_bars = 40, jitter = 0.5, contrast = 'inverted',
-  fname = 'distractor.pdf', dpi = 300, figsize = (8, 8), zoom = -0.1)
+# Plotting can also take more parameters...
+ori.plot(bar_distractor, bar_stim, n_bars=40, jitter=0.5, contrast='inverted',
+  fname='distractor.pdf', dpi=300, figsize=(8, 8), zoom=-0.1)
 ```
+
+### Two bar types with simple angles and user-defined (not probabilistic) locations
+We can also generate an image with fixed locations for each bar type, using the special plotting function `plot_with_coords`.
+This function ignores the `p_bar` probabilities defined for each `Bar` instance, and instead relies on a special argument `coords`, in which user-defined (x,y) coordinates are given for each `Bar` instance in dictionary form:
+```python
+# Define stim bar
+bar_vert = ori.Bars('vert', p_bar=0.4, bar_length=0.8,
+                    bar_width=3, angle=0)
+bar_horiz = ori.Bars('horiz', p_bar=0.4, bar_length=0.8,
+                     bar_width=3, angle=90)
+
+# Make a stochastically generated image out of the bar instances
+ori.plot_with_coords(bar_vert, bar_horiz,
+                     coords={'vert': [[0, 0], [0, 1], [1, 2], [2, 0], [2, 1]],
+                             'horiz': [[0, 2], [1, 0], [1, 1], [2, 2]]},
+                     n_bars=3, jitter=0, fname='test_coords.png',
+                     zoom=0)
+
+```
+
+
 ## Advanced cases
 ### Generating an arbitrary number of bar types which tile the angle space
 We can also easily do advanced things with ori.Bars()...
@@ -62,10 +85,10 @@ bars = []
 angles = np.linspace(0, 180, 5)
 
 for angle in angles:
-  bars.append(ori.Bars(str(angle), p_bar = 1/len(angles),
-  angle_probdist = sp_stats.norm, angle_dict = {'loc' : angle, 'scale' : 5}))
+  bars.append(ori.Bars(str(angle), p_bar=1/len(angles),
+  angle_probdist = sp_stats.norm, angle_dict={'loc' : angle, 'scale' : 5}))
 
-ori.plot(*bars, n_bars = 30, jitter = 0.5)
+ori.plot(*bars, n_bars=30, jitter=0.5)
 ```
 
 ### Generating sparse stimuli (missing bars)
@@ -81,15 +104,15 @@ ori.plot(bar_stim, bar_empty, n_bars=6, fname='empty_spaces.pdf')
 Sometimes, one desires to generate a bank of slightly different images, all generated with identical parameters. In this case, the convenience function <code>ori.imagebank()</code> can be used. The imagebank is stored in a new folder with defined name <code>folder_name</code>, and <code>n_img</code> repetitions are generated.
 
 ```python
-bar_stim = ori.Bars('stim', p_bar = 0.99, bar_length = 0.8,
-    bar_width = 10, angle_probdist = sp_stats.norm,
-    angle_dict = {'loc' : 0, 'scale' : 5})
-bar_nonstim = ori.Bars('nonstim', p_bar = 0.01, bar_length = 0.8,
-    bar_width = 10, angle_probdist = sp_stats.norm,
-    angle_dict = {'loc' : 90, 'scale' : 5})
+bar_stim = ori.Bars('stim', p_bar=0.99, bar_length=0.8,
+    bar_width=10, angle_probdist=sp_stats.norm,
+    angle_dict={'loc' : 0, 'scale' : 5})
+bar_nonstim = ori.Bars('nonstim', p_bar=0.01, bar_length=0.8,
+    bar_width=10, angle_probdist=sp_stats.norm,
+    angle_dict={'loc' : 90, 'scale' : 5})
 
-locals = ori.imagebank(bar_stim, bar_nonstim, n_img = 50, folder_name = 'change',
-    n_bars = 10, jitter = 0.5)
+locals = ori.imagebank(bar_stim, bar_nonstim, n_img=50, folder_name='change',
+    n_bars=10, jitter=0.5)
 ```
 Note that any parameters from <code>ori.plot()</code> can simply be passed to <code>ori.imagebank()</code>.
 
